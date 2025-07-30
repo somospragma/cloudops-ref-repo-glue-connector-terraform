@@ -1,7 +1,7 @@
 # providers.tf - Configuración de providers para el módulo Glue Connections
 
 terraform {
-  required_version = ">= 1.10.1"
+  required_version = ">= 1.10.0"
 
   required_providers {
     aws = {
