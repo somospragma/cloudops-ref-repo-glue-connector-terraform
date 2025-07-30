@@ -32,65 +32,65 @@ locals {
     }
   }
 
-  # Construir propiedades de conexión por tipo
+  # Construir propiedades de conexión por tipo usando los valores normalizados
   connection_properties = {
-    for key, config in local.connections_config : key => merge(
+    for key, normalized_config in local.connections_config : key => merge(
       # Propiedades personalizadas del usuario
-      config.connection_properties,
+      normalized_config.connection_properties,
       
       # Propiedades JDBC
-      config.connection_type == "JDBC" ? merge(
+      normalized_config.connection_type == "JDBC" ? merge(
         {
           for k, v in {
-            "JDBC_CONNECTION_URL"              = config.jdbc_url
-            "JDBC_DRIVER_CLASS_NAME"           = config.class_name
-            "JDBC_ENFORCE_SSL"                 = config.require_ssl ? "true" : "false"
-            "SKIP_CUSTOM_JDBC_CERT_VALIDATION" = config.skip_certificate_validation ? "true" : "false"
-            "CUSTOM_JDBC_CERT"                 = config.custom_jdbc_certificate
-            "CUSTOM_JDBC_CERT_STRING"          = config.custom_jdbc_certificate_string
+            "JDBC_CONNECTION_URL"              = normalized_config.jdbc_url
+            "JDBC_DRIVER_CLASS_NAME"           = normalized_config.class_name
+            "JDBC_ENFORCE_SSL"                 = normalized_config.require_ssl ? "true" : "false"
+            "SKIP_CUSTOM_JDBC_CERT_VALIDATION" = normalized_config.skip_certificate_validation ? "true" : "false"
+            "CUSTOM_JDBC_CERT"                 = normalized_config.custom_jdbc_certificate
+            "CUSTOM_JDBC_CERT_STRING"          = normalized_config.custom_jdbc_certificate_string
           } : k => v if v != null && v != ""
         },
-        config.secrets_manager_secret_arn != null ? {
-          "SECRET_ID" = config.secrets_manager_secret_arn
+        normalized_config.secrets_manager_secret_arn != null ? {
+          "SECRET_ID" = normalized_config.secrets_manager_secret_arn
         } : {
           for k, v in {
-            "USERNAME" = config.username
-            "PASSWORD" = config.password
+            "USERNAME" = normalized_config.username
+            "PASSWORD" = normalized_config.password
           } : k => v if v != null && v != ""
         }
       ) : {},
       
       # Propiedades Kafka
-      config.connection_type == "KAFKA" ? merge(
+      normalized_config.connection_type == "KAFKA" ? merge(
         {
           for k, v in {
-            "KAFKA_BOOTSTRAP_SERVERS"           = config.kafka_bootstrap_servers
-            "KAFKA_SSL_ENABLED"                 = config.kafka_ssl_enabled ? "true" : "false"
-            "KAFKA_CUSTOM_CERT"                 = config.kafka_custom_cert
-            "KAFKA_SKIP_CUSTOM_CERT_VALIDATION" = config.kafka_skip_custom_cert_validation ? "true" : "false"
+            "KAFKA_BOOTSTRAP_SERVERS"           = normalized_config.kafka_bootstrap_servers
+            "KAFKA_SSL_ENABLED"                 = normalized_config.kafka_ssl_enabled ? "true" : "false"
+            "KAFKA_CUSTOM_CERT"                 = normalized_config.kafka_custom_cert
+            "KAFKA_SKIP_CUSTOM_CERT_VALIDATION" = normalized_config.kafka_skip_custom_cert_validation ? "true" : "false"
           } : k => v if v != null && v != ""
         },
-        config.secrets_manager_secret_arn != null ? {
-          "KAFKA_SASL_SCRAM_SECRETS_ARN" = config.secrets_manager_secret_arn
+        normalized_config.secrets_manager_secret_arn != null ? {
+          "KAFKA_SASL_SCRAM_SECRETS_ARN" = normalized_config.secrets_manager_secret_arn
         } : {
           for k, v in {
-            "USERNAME" = config.username
-            "PASSWORD" = config.password
+            "USERNAME" = normalized_config.username
+            "PASSWORD" = normalized_config.password
           } : k => v if v != null && v != ""
         }
       ) : {},
       
       # Propiedades MongoDB
-      config.connection_type == "MONGODB" ? merge(
-        config.mongodb_host != null ? {
-          "CONNECTION_URL" = "mongodb://${config.mongodb_host}:${config.mongodb_port}/${config.mongodb_database != null ? config.mongodb_database : ""}"
+      normalized_config.connection_type == "MONGODB" ? merge(
+        normalized_config.mongodb_host != null ? {
+          "CONNECTION_URL" = "mongodb://${normalized_config.mongodb_host}:${normalized_config.mongodb_port}/${normalized_config.mongodb_database != null ? normalized_config.mongodb_database : ""}"
         } : {},
-        config.secrets_manager_secret_arn != null ? {
-          "SECRET_ID" = config.secrets_manager_secret_arn
+        normalized_config.secrets_manager_secret_arn != null ? {
+          "SECRET_ID" = normalized_config.secrets_manager_secret_arn
         } : {
           for k, v in {
-            "USERNAME" = config.username
-            "PASSWORD" = config.password
+            "USERNAME" = normalized_config.username
+            "PASSWORD" = normalized_config.password
           } : k => v if v != null && v != ""
         }
       ) : {}
