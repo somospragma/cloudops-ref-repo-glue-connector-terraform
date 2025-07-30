@@ -42,12 +42,8 @@ locals {
       normalized_config.connection_type == "JDBC" ? merge(
         {
           for k, v in {
-            "JDBC_CONNECTION_URL"              = normalized_config.jdbc_url
-            "JDBC_DRIVER_CLASS_NAME"           = normalized_config.class_name
-            "JDBC_ENFORCE_SSL"                 = normalized_config.require_ssl ? "true" : "false"
-            "SKIP_CUSTOM_JDBC_CERT_VALIDATION" = normalized_config.skip_certificate_validation ? "true" : "false"
-            "CUSTOM_JDBC_CERT"                 = normalized_config.custom_jdbc_certificate
-            "CUSTOM_JDBC_CERT_STRING"          = normalized_config.custom_jdbc_certificate_string
+            "JDBC_CONNECTION_URL"    = normalized_config.jdbc_url
+            "JDBC_DRIVER_CLASS_NAME" = normalized_config.class_name
           } : k => v if v != null && v != ""
         },
         normalized_config.secrets_manager_secret_arn != null ? {

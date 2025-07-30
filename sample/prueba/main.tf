@@ -50,13 +50,15 @@ module "glue_connections" {
     connection_type = "JDBC"
     description     = "MySq database connection Creci"
     jdbc_url        = "jdbc:mysql://mapa-de-crecimiento-proddb.cvwxqwk0qsc2.us-east-1.rds.amazonaws.com:3306/chapter_administracion_prod"
-    class_name      = "org.mysql.Driver"
+    class_name      = "com.mysql.cj.jdbc.Driver"
     
-    # secrets_manager_secret_arn = data.aws_secretsmanager_secret.sm-creci.arn
+    secrets_manager_secret_arn = data.aws_secretsmanager_secret.sm-creci.arn
+    #username = "query_usr"
+    #password = "hnC5ghVbsdogh9"
     
-    # # Network configuration
-    # subnet_id              = data.aws_subnet.data.id
-    # security_group_id_list = [data.aws_security_group.data.id]
+    # Network configuration
+    subnet_id              = data.aws_subnet.data.id
+    security_group_id_list = [data.aws_security_group.data.id]
    
     # Additional tags
     additional_tags = {
@@ -69,11 +71,11 @@ module "glue_connections" {
     jdbc_url        = "jdbc:mysql://mission-match-prod-db.c7yetlpaneie.us-east-1.rds.amazonaws.com:3306/missionmatch_prod_db"
     class_name      = "org.mysql.Driver"
     
-    # secrets_manager_secret_arn = data.aws_secretsmanager_secret.sm-mission_match.arn
+    secrets_manager_secret_arn = data.aws_secretsmanager_secret.sm-mission_match.arn
     
     # # Network configuration
-    # subnet_id              = data.aws_subnet.data.id
-    # security_group_id_list = [data.aws_security_group.data.id]
+    subnet_id              = data.aws_subnet.data.id
+    security_group_id_list = [data.aws_security_group.data.id]
    
     # Additional tags
     additional_tags = {

@@ -4,7 +4,7 @@
 provider "aws" {
   region = var.aws_region
   alias  = "principal"
-  profile = "chapter_cloudops"
+  profile = "Pragma_Analytics_Applications_Pdn"
   # assume_role {
   #   role_arn = var.deploy_role_arn
   # }
