@@ -1,0 +1,34 @@
+# Basic configuration
+client      = "pragma"
+project     = "analytics"
+environment = "dev"
+
+# MongoDB connection configuration
+glue_connections_config = {
+  "mongodb-cluster" = {
+    connection_type = "MONGODB"
+    description     = "MongoDB cluster connection for document processing"
+    
+    # MongoDB configuration
+    mongodb_host     = "mongodb.example.com"
+    mongodb_port     = "27017"
+    mongodb_database = "analytics_db"
+    
+    # Direct credentials (consider using Secrets Manager for production)
+    username = "mongo-user"
+    password = "mongo-password"
+    
+    # Additional properties for MongoDB
+    connection_properties = {
+      "authSource" = "admin"
+      "ssl"        = "true"
+    }
+    
+    # Additional tags
+    additional_tags = {
+      Application = "DocumentProcessing"
+      Team        = "Analytics"
+      Database    = "MongoDB"
+    }
+  }
+}

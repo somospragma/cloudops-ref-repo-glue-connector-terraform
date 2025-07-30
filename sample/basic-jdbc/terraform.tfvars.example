@@ -1,0 +1,29 @@
+# Basic configuration
+client      = "pragma"
+project     = "data-pipeline"
+environment = "dev"
+
+# Basic JDBC connection configuration
+glue_connections_config = {
+  "postgres-db" = {
+    connection_type = "JDBC"
+    description     = "PostgreSQL database connection"
+    jdbc_url        = "jdbc:postgresql://db.example.com:5432/mydb"
+    class_name      = "org.postgresql.Driver"
+    
+    # Direct credentials (less secure)
+    username = "dbuser"
+    password = "dbpassword"
+    
+    # Network configuration
+    subnet_id              = "subnet-12345678"
+    security_group_id_list = ["sg-12345678"]
+    availability_zone      = "us-east-1a"
+    
+    # Additional tags
+    additional_tags = {
+      Application = "DataPipeline"
+      Team        = "Analytics"
+    }
+  }
+}

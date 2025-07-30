@@ -1,0 +1,46 @@
+# Basic configuration
+client      = "pragma"
+project     = "data-pipeline"
+environment = "dev"
+
+# Secure connections using AWS Secrets Manager
+glue_connections_config = {
+  "postgres-secure" = {
+    connection_type = "JDBC"
+    description     = "Secure PostgreSQL connection using Secrets Manager"
+    jdbc_url        = "jdbc:postgresql://db.example.com:5432/mydb"
+    class_name      = "org.postgresql.Driver"
+    
+    # Secure credentials using Secrets Manager (RECOMMENDED)
+    secrets_manager_secret_arn = "arn:aws:secretsmanager:us-east-1:123456789012:secret:db-credentials-abc123"
+    
+    # Network configuration
+    subnet_id              = "subnet-12345678"
+    security_group_id_list = ["sg-12345678"]
+    availability_zone      = "us-east-1a"
+    
+    # Additional tags
+    additional_tags = {
+      Application = "DataPipeline"
+      Team        = "Analytics"
+      Security    = "High"
+    }
+  }
+  
+  "kafka-secure" = {
+    connection_type = "KAFKA"
+    description     = "Secure Kafka connection using Secrets Manager"
+    
+    kafka_bootstrap_servers = "kafka1.example.com:9092,kafka2.example.com:9092"
+    kafka_ssl_enabled       = true
+    
+    # Secure credentials using Secrets Manager
+    secrets_manager_secret_arn = "arn:aws:secretsmanager:us-east-1:123456789012:secret:kafka-credentials-def456"
+    
+    additional_tags = {
+      Application = "StreamProcessing"
+      Team        = "DataEngineering"
+      Security    = "High"
+    }
+  }
+}

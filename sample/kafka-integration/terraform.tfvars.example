@@ -1,0 +1,34 @@
+# Basic configuration
+client      = "pragma"
+project     = "streaming"
+environment = "dev"
+
+# Kafka connection configuration
+glue_connections_config = {
+  "kafka-cluster" = {
+    connection_type = "KAFKA"
+    description     = "Kafka cluster connection for streaming data"
+    
+    # Kafka configuration
+    kafka_bootstrap_servers = "kafka1.example.com:9092,kafka2.example.com:9092,kafka3.example.com:9092"
+    kafka_ssl_enabled       = true
+    kafka_custom_cert       = null
+    kafka_skip_custom_cert_validation = false
+    
+    # Direct credentials (consider using Secrets Manager for production)
+    username = "kafka-user"
+    password = "kafka-password"
+    
+    # Additional properties
+    connection_properties = {
+      "KAFKA_SASL_MECHANISM" = "SCRAM-SHA-256"
+    }
+    
+    # Additional tags
+    additional_tags = {
+      Application = "StreamProcessing"
+      Team        = "DataEngineering"
+      Protocol    = "Kafka"
+    }
+  }
+}
