@@ -1,5 +1,6 @@
 locals {
-  # Configuraciones con valores por defecto aplicados de forma robusta
+  # Normalize connection configurations with safe default values
+  # This ensures all optional fields have consistent defaults to prevent validation errors
   connections_config = {
     for key, config in var.glue_connections_config : key => {
       # Campos obligatorios
@@ -32,7 +33,8 @@ locals {
     }
   }
 
-  # Construir propiedades de conexión por tipo usando los valores normalizados
+  # Build connection properties dynamically based on connection type
+  # Simplified to avoid SSL-related properties that cause AWS Glue validation errors
   connection_properties = {
     for key, normalized_config in local.connections_config : key => merge(
       # Propiedades personalizadas del usuario

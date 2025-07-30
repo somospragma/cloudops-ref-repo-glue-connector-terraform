@@ -90,19 +90,3 @@ output "connections_security_summary" {
   }
 }
 
-# DEBUG OUTPUT - TEMPORAL
-output "debug_connections_config" {
-  description = "Debug: Show normalized connections config"
-  value = local.connections_config
-}
-
-output "debug_original_config" {
-  description = "Debug: Show original input config"
-  value = var.glue_connections_config
-}
-
-output "debug_connection_properties_final" {
-  description = "Debug: Show final connection properties that will be sent to AWS"
-  value = local.connection_properties
-  sensitive = false
-}

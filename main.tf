@@ -7,7 +7,8 @@ resource "aws_glue_connection" "connections" {
   description     = each.value.description
   connection_type = each.value.connection_type
 
-  # Propiedades de conexión construidas dinámicamente
+  # Connection properties built dynamically based on connection type and authentication method
+  # Supports JDBC (with Secrets Manager or direct credentials), Kafka, and MongoDB
   connection_properties = length(local.connection_properties[each.key]) > 0 ? local.connection_properties[each.key] : null
 
   # Configuración de red (cuando aplique)
