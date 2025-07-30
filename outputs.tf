@@ -89,3 +89,14 @@ output "connections_security_summary" {
     ]) / length(aws_glue_connection.connections)) * 100) : 0
   }
 }
+
+# DEBUG OUTPUT - TEMPORAL
+output "debug_connections_config" {
+  description = "Debug: Show normalized connections config"
+  value = local.connections_config
+}
+
+output "debug_original_config" {
+  description = "Debug: Show original input config"
+  value = var.glue_connections_config
+}

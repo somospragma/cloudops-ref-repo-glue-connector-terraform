@@ -5,30 +5,30 @@ locals {
       # Campos obligatorios
       connection_type = config.connection_type
       
-      # Campos con valores por defecto seguros
-      description                    = try(config.description, "Glue connection for ${key}")
-      require_ssl                    = try(config.require_ssl, false)
-      skip_certificate_validation    = try(config.skip_certificate_validation, false)
-      custom_jdbc_certificate        = try(config.custom_jdbc_certificate, null)
-      custom_jdbc_certificate_string = try(config.custom_jdbc_certificate_string, null)
-      username                       = try(config.username, null)
-      password                       = try(config.password, null)
-      secrets_manager_secret_arn     = try(config.secrets_manager_secret_arn, null)
-      subnet_id                      = try(config.subnet_id, null)
-      security_group_id_list         = try(config.security_group_id_list, [])
-      availability_zone              = try(config.availability_zone, null)
-      connection_properties          = try(config.connection_properties, {})
-      kafka_bootstrap_servers        = try(config.kafka_bootstrap_servers, null)
-      kafka_ssl_enabled              = try(config.kafka_ssl_enabled, false)
-      kafka_custom_cert              = try(config.kafka_custom_cert, null)
-      kafka_skip_custom_cert_validation = try(config.kafka_skip_custom_cert_validation, false)
-      mongodb_host                   = try(config.mongodb_host, null)
-      mongodb_port                   = try(config.mongodb_port, "27017")
-      mongodb_database               = try(config.mongodb_database, null)
-      jdbc_url                       = try(config.jdbc_url, null)
-      class_name                     = try(config.class_name, null)
-      physical_connection_requirements = try(config.physical_connection_requirements, null)
-      additional_tags                = try(config.additional_tags, {})
+      # Campos con valores por defecto seguros usando coalesce
+      description                    = coalesce(config.description, "Glue connection for ${key}")
+      require_ssl                    = coalesce(config.require_ssl, false)
+      skip_certificate_validation    = coalesce(config.skip_certificate_validation, false)
+      custom_jdbc_certificate        = config.custom_jdbc_certificate
+      custom_jdbc_certificate_string = config.custom_jdbc_certificate_string
+      username                       = config.username
+      password                       = config.password
+      secrets_manager_secret_arn     = config.secrets_manager_secret_arn
+      subnet_id                      = config.subnet_id
+      security_group_id_list         = coalesce(config.security_group_id_list, [])
+      availability_zone              = config.availability_zone
+      connection_properties          = coalesce(config.connection_properties, {})
+      kafka_bootstrap_servers        = config.kafka_bootstrap_servers
+      kafka_ssl_enabled              = coalesce(config.kafka_ssl_enabled, false)
+      kafka_custom_cert              = config.kafka_custom_cert
+      kafka_skip_custom_cert_validation = coalesce(config.kafka_skip_custom_cert_validation, false)
+      mongodb_host                   = config.mongodb_host
+      mongodb_port                   = coalesce(config.mongodb_port, "27017")
+      mongodb_database               = config.mongodb_database
+      jdbc_url                       = config.jdbc_url
+      class_name                     = config.class_name
+      physical_connection_requirements = config.physical_connection_requirements
+      additional_tags                = coalesce(config.additional_tags, {})
     }
   }
 
